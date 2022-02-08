@@ -85,6 +85,16 @@ class Tic_tac_toe():
         return False        
 
 
+    # Checking draw:
+    def checking_draw(self):
+        for i in np.arange(self.side):
+            for j in np.arange(self.side):
+                if(self.board[i][j] == 0):
+                    return False
+        
+        return True
+
+
     # Checking if it is a valid movement:
     def valid_movement(self, x, y):
 
@@ -128,6 +138,9 @@ class Tic_tac_toe():
 
         if(self.checking_winer()):
             print("Player {player} won this game!".format(player = player))
+            self.game_on = False
+        elif(self.checking_draw()):
+            print("The game tied!")
             self.game_on = False
 
 
