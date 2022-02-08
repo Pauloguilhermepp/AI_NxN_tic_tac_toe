@@ -85,6 +85,38 @@ class Tic_tac_toe():
         return False        
 
 
+    # Checking if it is a valid movement:
+    def valid_movement(self, x, y):
+
+        # Checking if "x" is in the correct range:
+        if(x < 0 or x >= self.side):
+            return False
+        
+        # CHecking if "y" is in the correct range:
+        if(y < 0 or y >= self.side):
+            return False
+        
+        # Checking if the position is empty:
+        if(self.board[x][y] != 0):
+            return False
+        
+        return True
+
+
+    # Function to make some movement:
+    def movement(self, player):
+        moving = True
+
+        while(moving):
+            x, y = map(int, input().split())
+
+            if(self.valid_movement(x, y)):
+                self.board[x][y] = player
+                moving = False
+            else:
+                print("Invalid movement, please try again.")
+
+
     # Function to run for each player turn:
     def player_turn(self, player):
         
@@ -92,15 +124,12 @@ class Tic_tac_toe():
 
         print("It is {player} time: ".format(player = player), end="")
 
-        x, y = map(int, input().split())
-
-        self.board[x][y] = player
+        self.movement(player)
 
         if(self.checking_winer()):
             print("Player {player} won this game!".format(player = player))
             self.game_on = False
 
-    
 
     # Function to run the game:
     def run(self):
