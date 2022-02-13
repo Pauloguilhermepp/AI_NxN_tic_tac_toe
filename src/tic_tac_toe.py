@@ -3,6 +3,7 @@ import pygame
 import random
 import numpy as np
 import Opponents.random_op
+import Opponents.dumb_minimax_op
 
 # Class to represent tic tac toe game:
 class Tic_tac_toe:
@@ -251,13 +252,13 @@ class Tic_tac_toe:
         player1, player2 = self.first_to_play()
 
         self.game_on = True
-        current_player = player1
-        current_player_symb = "x"
+        self.current_player = player1
+        self.current_player_symb = "x"
 
         print("Starting tic-tac-toe game!")
         print("{Player1} will be the x".format(Player1 = player1))
         print("{Player2} will be the o".format(Player2 = player2))
-        print("It is {player} time: ".format(player = current_player_symb))
+        print("It is {player} time: ".format(player = self.current_player_symb ))
 
         pygame.init()
         self.screen = pygame.display.set_mode(
@@ -272,22 +273,23 @@ class Tic_tac_toe:
                     self.game_on = False
 
                 elif event.type == pygame.MOUSEBUTTONDOWN:
-                    if pygame.mouse.get_pressed() and current_player == "Human":
+                    if pygame.mouse.get_pressed() and self.current_player== "Human":
                         xpos, ypos = pygame.mouse.get_pos()
                         xpos, ypos = (xpos // self.square_size), (ypos // self.square_size)
-                        if (self.player_turn(current_player_symb, xpos, ypos) and self.game_on):
-                            current_player_symb = self.change_player(current_player_symb)
-                            print("It is {player} time: ".format(player=current_player_symb))
-                            current_player = "Bot"
+                        if (self.player_turn(self.current_player_symb , xpos, ypos) and self.game_on):
+                            self.current_player_symb  = self.change_player(self.current_player_symb )
+                            print("It is {player} time: ".format(player = self.current_player_symb ))
+                            self.current_player= "Bot"
 
 
-            if(current_player == "Bot"):
-                xpos, ypos = Opponents.random_op.move(self)
-                if (self.player_turn(current_player_symb, xpos, ypos)):
+            if(self.current_player== "Bot"):
+                # xpos, ypos = Opponents.random_op.move(self)
+                xpos, ypos = Opponents.dumb_minimax_op.move(self)
+                if (self.player_turn(self.current_player_symb , xpos, ypos)):
                     if(self.game_on):
-                        current_player_symb = self.change_player(current_player_symb)
-                        print("It is {player} time: ".format(player=current_player_symb))
-                        current_player = "Human"
+                        self.current_player_symb  = self.change_player(self.current_player_symb )
+                        print("It is {player} time: ".format(player = self.current_player_symb ))
+                        self.current_player= "Human"
                 else:
                     print("Bot tired to make an invalid movement, program will finish now.")
                     self.game_on = False
