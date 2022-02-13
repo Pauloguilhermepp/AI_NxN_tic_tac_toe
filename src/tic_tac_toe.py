@@ -8,15 +8,17 @@ import Opponents.dumb_minimax_op
 # Class to represent tic tac toe game:
 class Tic_tac_toe:
     # Constructor:
-    def __init__(self, side=3, window_size=500, mode = "player_vs_player"):
+    def __init__(self, side=3, window_size=500, mode="player_vs_player"):
         self.board = [
             [0 for i in np.arange(side)] for j in np.arange(side)
         ]  # Creating board
         self.side = side  # Saving variable with board length
 
         self.window_size = window_size  # Saving screen size
-        self.square_size = round(window_size / self.side) # Size of the squares in the board
-        self.mode = mode # Game mode
+        self.square_size = round(
+            window_size / self.side
+        )  # Size of the squares in the board
+        self.mode = mode  # Game mode
 
     # Function to test if someone won:
     def checking_winer(self):
@@ -123,7 +125,7 @@ class Tic_tac_toe:
         if self.movement(player, x, y):
 
             if self.checking_winer():
-                print("Player {player} won this game!".format(player=player))
+                print("Player {player} won this game!".format(player = player))
                 self.game_on = False
 
             elif self.checking_draw():
@@ -168,9 +170,6 @@ class Tic_tac_toe:
         x1, y1, x3, y3 = x + adust, y + adust, x - adust, y - adust
         pygame.draw.line(self.screen, rect_color, (x0, y0), (x2, y2), width=thic)
         pygame.draw.line(self.screen, rect_color, (x1, y1), (x3, y3), width=thic)
-        """bg_color = (0, 0, 0)
-        radius -= thic
-        pygame.draw.circle(self.screen, bg_color, (x, y), radius, width = 0)"""
 
     # Draw player movement:
     def draw_move(self, player, x, y):
@@ -192,29 +191,29 @@ class Tic_tac_toe:
     # Function to run the game:
     def run(self):
 
-        if(self.mode == "player_vs_player"):
+        if self.mode == "player_vs_player":
             self.run_player_vs_player()
 
-        elif(self.mode == "player_vs_bot"):
+        elif self.mode == "player_vs_bot":
             self.run_player_vs_bot()
-        
-        elif(self.mode == "bot_vs_bot"):
+
+        elif self.mode == "bot_vs_bot":
             print("Em andamento")
 
     # Creating mode player vs player:
     def run_player_vs_player(self):
 
         self.game_on = True
-        current_player_symb = "x"
+        self.current_player_symb = "x"
 
         print("Starting tic-tac-toe game!")
-        print("It is {player} time: ".format(player = current_player_symb))
+        print("It is {player} time: ".format(player = self.current_player_symb))
 
         pygame.init()
         self.screen = pygame.display.set_mode(
             [self.window_size, self.window_size]
         )  # Creating screen
-        
+
         while self.game_on:
             self.draw_grid()
 
@@ -229,21 +228,27 @@ class Tic_tac_toe:
                             ypos // self.square_size
                         )
                         if (
-                            self.player_turn(current_player_symb, xpos, ypos)
+                            self.player_turn(self.current_player_symb, xpos, ypos)
                             and self.game_on
                         ):
-                            current_player_symb = self.change_player(current_player_symb)
-                            print("It is {player} time: ".format(player=current_player_symb))
+                            self.current_player_symb = self.change_player(
+                                self.current_player_symb
+                            )
+                            print(
+                                "It is {player} time: ".format(
+                                    player = self.current_player_symb
+                                )
+                            )
 
             pygame.display.update()
 
         pygame.quit()
-    
+
     # Deciding who will start:
     def first_to_play(self):
-        if(random.random() < 0.5):
+        if random.random() < 0.5:
             return ["Human", "Bot"]
-        
+
         return ["Bot", "Human"]
 
     # Creating mode player vs bot:
@@ -258,7 +263,7 @@ class Tic_tac_toe:
         print("Starting tic-tac-toe game!")
         print("{Player1} will be the x".format(Player1 = player1))
         print("{Player2} will be the o".format(Player2 = player2))
-        print("It is {player} time: ".format(player = self.current_player_symb ))
+        print("It is {player} time: ".format(player = self.current_player_symb))
 
         pygame.init()
         self.screen = pygame.display.set_mode(
@@ -273,25 +278,43 @@ class Tic_tac_toe:
                     self.game_on = False
 
                 elif event.type == pygame.MOUSEBUTTONDOWN:
-                    if pygame.mouse.get_pressed() and self.current_player== "Human":
+                    if pygame.mouse.get_pressed() and self.current_player == "Human":
                         xpos, ypos = pygame.mouse.get_pos()
-                        xpos, ypos = (xpos // self.square_size), (ypos // self.square_size)
-                        if (self.player_turn(self.current_player_symb , xpos, ypos) and self.game_on):
-                            self.current_player_symb  = self.change_player(self.current_player_symb )
-                            print("It is {player} time: ".format(player = self.current_player_symb ))
-                            self.current_player= "Bot"
+                        xpos, ypos = (xpos // self.square_size), (
+                            ypos // self.square_size
+                        )
+                        if (
+                            self.player_turn(self.current_player_symb, xpos, ypos)
+                            and self.game_on
+                        ):
+                            self.current_player_symb = self.change_player(
+                                self.current_player_symb
+                            )
+                            print(
+                                "It is {player} time: ".format(
+                                    player = self.current_player_symb
+                                )
+                            )
+                            self.current_player = "Bot"
 
-
-            if(self.current_player== "Bot"):
+            if self.current_player == "Bot":
                 # xpos, ypos = Opponents.random_op.move(self)
                 xpos, ypos = Opponents.dumb_minimax_op.move(self)
-                if (self.player_turn(self.current_player_symb , xpos, ypos)):
-                    if(self.game_on):
-                        self.current_player_symb  = self.change_player(self.current_player_symb )
-                        print("It is {player} time: ".format(player = self.current_player_symb ))
-                        self.current_player= "Human"
+                if self.player_turn(self.current_player_symb, xpos, ypos):
+                    if self.game_on:
+                        self.current_player_symb = self.change_player(
+                            self.current_player_symb
+                        )
+                        print(
+                            "It is {player} time: ".format(
+                                player = self.current_player_symb
+                            )
+                        )
+                        self.current_player = "Human"
                 else:
-                    print("Bot tired to make an invalid movement, program will finish now.")
+                    print(
+                        "Bot tired to make an invalid movement, program will finish now."
+                    )
                     self.game_on = False
 
             pygame.display.update()
