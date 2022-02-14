@@ -92,22 +92,31 @@ class Tic_tac_toe:
 
         return True
 
-    # Checking if it is a valid movement:
-    def valid_movement(self, x, y):
-
+    # Checking if the move is inside the game board:
+    def is_inside(self, x, y):
         # Checking if "x" is in the correct range:
         if x < 0 or x >= self.side:
             return False
 
-        # CHecking if "y" is in the correct range:
+        # Checking if "y" is in the correct range:
         if y < 0 or y >= self.side:
             return False
 
-        # Checking if the position is empty:
+        return True
+
+    # Checking if the position is empty:
+    def is_empty(self, x, y):
         if self.board[x][y] != 0:
             return False
 
         return True
+
+    # Checking if it is a valid movement:
+    def valid_movement(self, x, y):
+        if(self.is_inside(x, y) and self.is_empty(x, y)):
+            return True
+
+        return False
 
     # Function to make some movement:
     def movement(self, player, x, y):
@@ -182,11 +191,12 @@ class Tic_tac_toe:
             self.draw_o(xpos, ypos, 3)
 
     # Change player turn:
-    def change_player(self, player):
-        if player == "x":
-            return "o"
+    def change_player(self):
+        if self.current_player_symb == "x":
+            self.current_player_symb = "o"
+        
         else:
-            return "x"
+            self.current_player_symb = "x"
 
     # Function to run the game:
     def run(self):
@@ -231,9 +241,7 @@ class Tic_tac_toe:
                             self.player_turn(self.current_player_symb, xpos, ypos)
                             and self.game_on
                         ):
-                            self.current_player_symb = self.change_player(
-                                self.current_player_symb
-                            )
+                            self.change_player()
                             print(
                                 "It is {player} time: ".format(
                                     player = self.current_player_symb
@@ -287,9 +295,7 @@ class Tic_tac_toe:
                             self.player_turn(self.current_player_symb, xpos, ypos)
                             and self.game_on
                         ):
-                            self.current_player_symb = self.change_player(
-                                self.current_player_symb
-                            )
+                            self.change_player()
                             print(
                                 "It is {player} time: ".format(
                                     player = self.current_player_symb
@@ -302,9 +308,7 @@ class Tic_tac_toe:
                 xpos, ypos = Opponents.dumb_minimax_op.move(self)
                 if self.player_turn(self.current_player_symb, xpos, ypos):
                     if self.game_on:
-                        self.current_player_symb = self.change_player(
-                            self.current_player_symb
-                        )
+                        self.change_player()
                         print(
                             "It is {player} time: ".format(
                                 player = self.current_player_symb
