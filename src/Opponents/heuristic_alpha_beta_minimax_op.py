@@ -2,10 +2,10 @@ import math
 import numpy as np
 
 
-def heuristic_function(game_state):
+def heuristic_function(game_state, maximazing):
     pontuation = 0
     symb = game_state.current_player_symb
-  
+
     # Checking rows:
     for row in np.arange(game_state.side):
         plus = 0
@@ -43,9 +43,10 @@ def heuristic_function(game_state):
         pontuation += plus - minus
 
     # Checking main diagonal:
+    plus = 0
+    minus = 0
+    
     for id in np.arange(game_state.side):
-        plus = 0
-        minus = 0
 
         if symb == game_state.board[id][id]:
             plus += 1
@@ -60,9 +61,10 @@ def heuristic_function(game_state):
     pontuation += plus - minus
 
     # Checking other diagonal:
+    plus = 0
+    minus = 0
+
     for id in np.arange(game_state.side):
-        plus = 0
-        minus = 0
 
         if symb == game_state.board[game_state.side - id - 1][id]:
             plus += 1
@@ -76,7 +78,10 @@ def heuristic_function(game_state):
     
     pontuation += plus - minus
 
-    return pontuation
+    if(maximazing):
+        return pontuation
+
+    return -pontuation
 
 def minimax(game_state, maximazing, alpha, beta, depth):
     
@@ -90,10 +95,7 @@ def minimax(game_state, maximazing, alpha, beta, depth):
         return 0
 
     elif(depth == 0):
-        if not maximazing:
-            return heuristic_function(game_state)
-        else:
-            return -heuristic_function(game_state)
+        return heuristic_function(game_state, maximazing)
     
     max_score = -math.inf
     min_score =  math.inf
@@ -128,8 +130,6 @@ def minimax(game_state, maximazing, alpha, beta, depth):
 
                 if(beta <= alpha):
                     break
-
-
     
     if(maximazing):
         return max_score
@@ -139,7 +139,7 @@ def minimax(game_state, maximazing, alpha, beta, depth):
 def move(game_state):
     best_score = -math.inf
     best_move = None
-    depth = 1
+    depth = 2
 
     N = game_state.side
     for i in np.arange(N * N):
