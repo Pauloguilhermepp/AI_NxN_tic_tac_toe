@@ -3,7 +3,7 @@ from tic_tac_toe import Tic_tac_toe
 
 # Main function:
 def main():
-    game = Tic_tac_toe(side = 3, mode = "player_vs_bot")
+    game = Tic_tac_toe(side = 3, mode = "player_vs_bot", opponent = "dumb_minimax_op")
     game.run()
 
 

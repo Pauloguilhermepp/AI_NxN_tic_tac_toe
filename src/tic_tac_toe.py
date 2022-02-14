@@ -1,14 +1,13 @@
 # Class that represents the tic-tac-toe game.
 import pygame
 import random
+from Opponents import *
 import numpy as np
-import Opponents.random_op
-import Opponents.dumb_minimax_op
 
 # Class to represent tic tac toe game:
 class Tic_tac_toe:
     # Constructor:
-    def __init__(self, side=3, window_size=500, mode="player_vs_player"):
+    def __init__(self, side = 3, window_size = 500, mode = "player_vs_player", opponent = "random_op"):
         self.board = [
             [0 for i in np.arange(side)] for j in np.arange(side)
         ]  # Creating board
@@ -19,6 +18,7 @@ class Tic_tac_toe:
             window_size / self.side
         )  # Size of the squares in the board
         self.mode = mode  # Game mode
+        self.opponent = opponent # Choosing opponent
 
     # Function to test if someone won:
     def checking_winer(self):
@@ -208,7 +208,7 @@ class Tic_tac_toe:
             self.run_player_vs_bot()
 
         elif self.mode == "bot_vs_bot":
-            print("Em andamento")
+            print("TODO: it mode will be added in the future")
 
     # Creating mode player vs player:
     def run_player_vs_player(self):
@@ -259,8 +259,18 @@ class Tic_tac_toe:
 
         return ["Bot", "Human"]
 
+    # Defining opponent:
+    def choose_opponent(self):
+        if(self.opponent == "random_op"):
+            self.opponent_move = random_op.move
+        
+        elif(self.opponent == "dumb_minimax_op"):
+            self.opponent_move = dumb_minimax_op.move
+            
     # Creating mode player vs bot:
     def run_player_vs_bot(self):
+
+        self.choose_opponent()
 
         player1, player2 = self.first_to_play()
 
@@ -304,8 +314,8 @@ class Tic_tac_toe:
                             self.current_player = "Bot"
 
             if self.current_player == "Bot":
-                # xpos, ypos = Opponents.random_op.move(self)
-                xpos, ypos = Opponents.dumb_minimax_op.move(self)
+                # xpos, ypos = random_op.move(self)
+                xpos, ypos = self.opponent_move(self)
                 if self.player_turn(self.current_player_symb, xpos, ypos):
                     if self.game_on:
                         self.change_player()
