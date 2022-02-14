@@ -266,6 +266,9 @@ class Tic_tac_toe:
         
         elif(self.opponent == "dumb_minimax_op"):
             self.opponent_move = dumb_minimax_op.move
+        
+        elif(self.opponent == "alpha_beta_minimax_op"):
+            self.opponent_move = alpha_beta_minimax_op.move
             
     # Creating mode player vs bot:
     def run_player_vs_bot(self):
