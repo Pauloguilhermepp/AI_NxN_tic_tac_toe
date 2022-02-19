@@ -1,13 +1,14 @@
 # Class that represents the tic-tac-toe game.
+import time
 import pygame
 import random
-from Opponents import *
 import numpy as np
+from Opponents import *
 
 # Class to represent tic tac toe game:
 class Tic_tac_toe:
     # Constructor:
-    def __init__(self, side = 3, window_size = 500, mode = "player_vs_player", opponent = "random_op"):
+    def __init__(self, side = 3, window_size = 500, mode = "player_vs_player", opponent = "random_op", bots = ("random_op", "random_op")):
         self.board = [
             [0 for i in np.arange(side)] for j in np.arange(side)
         ]  # Creating board
@@ -19,6 +20,7 @@ class Tic_tac_toe:
         )  # Size of the squares in the board
         self.mode = mode  # Game mode
         self.opponent = opponent # Choosing opponent
+        self.bots = bots
 
     # Function to test if someone won:
     def checking_winer(self):
@@ -208,7 +210,7 @@ class Tic_tac_toe:
             self.run_player_vs_bot()
 
         elif self.mode == "bot_vs_bot":
-            print("TODO: it mode will be added in the future")
+            self.run_bot_vs_bot()
 
     # Creating mode player vs player:
     def run_player_vs_player(self):
@@ -260,23 +262,25 @@ class Tic_tac_toe:
         return ["Bot", "Human"]
 
     # Defining opponent:
-    def choose_opponent(self):
-        if(self.opponent == "random_op"):
-            self.opponent_move = random_op.move
+    def choose_opponent(self, option):
+        if(option == "random_op"):
+            op = random_op.move
         
-        elif(self.opponent == "dumb_minimax_op"):
-            self.opponent_move = dumb_minimax_op.move
+        elif(option == "dumb_minimax_op"):
+            op = dumb_minimax_op.move
         
-        elif(self.opponent == "alpha_beta_minimax_op"):
-            self.opponent_move = alpha_beta_minimax_op.move
+        elif(option == "alpha_beta_minimax_op"):
+            op = alpha_beta_minimax_op.move
         
-        elif(self.opponent == "heuristic_alpha_beta_minimax_op"):
-            self.opponent_move = heuristic_alpha_beta_minimax_op.move
+        elif(option == "heuristic_alpha_beta_minimax_op"):
+            op = heuristic_alpha_beta_minimax_op.move
+        
+        return op
             
     # Creating mode player vs bot:
     def run_player_vs_bot(self):
 
-        self.choose_opponent()
+        self.opponent_move = self.choose_opponent(self.opponent)
 
         player1, player2 = self.first_to_play()
 
@@ -338,5 +342,73 @@ class Tic_tac_toe:
                     self.game_on = False
 
             pygame.display.update()
+
+        pygame.quit()
+    
+    # Creating mode bot vs bot:
+    def run_bot_vs_bot(self):
+
+        self.bot_move1 = self.choose_opponent(self.bots[0])
+        self.bot_move2 = self.choose_opponent(self.bots[1])
+
+        player1, player2 = "p1", "p2"
+
+        self.game_on = True
+        self.current_player = player1
+        self.current_player_symb = "x"
+
+        print("Starting tic-tac-toe game!")
+        print("{Player1} will be the x".format(Player1 = player1))
+        print("{Player2} will be the o".format(Player2 = player2))
+        print("It is {player} time: ".format(player = self.current_player_symb))
+
+        pygame.init()
+        self.screen = pygame.display.set_mode(
+            [self.window_size, self.window_size]
+        )  # Creating screen
+
+        while self.game_on:
+            self.draw_grid()
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    self.game_on = False
+
+            if self.current_player == "p1":
+                xpos, ypos = self.bot_move1(self)
+                if self.player_turn(self.current_player_symb, xpos, ypos):
+                    if self.game_on:
+                        self.change_player()
+                        print(
+                            "It is {player} time: ".format(
+                                player = self.current_player_symb
+                            )
+                        )
+                        self.current_player = "p2"
+                else:
+                    print(
+                        "Bot tired to make an invalid movement, program will finish now."
+                    )
+                    self.game_on = False
+
+            else:
+                xpos, ypos = self.bot_move2(self)
+                if self.player_turn(self.current_player_symb, xpos, ypos):
+                    if self.game_on:
+                        self.change_player()
+                        print(
+                            "It is {player} time: ".format(
+                                player = self.current_player_symb
+                            )
+                        )
+                        self.current_player = "p1"
+                else:
+                    print(
+                        "Bot tired to make an invalid movement, program will finish now."
+                    )
+                    self.game_on = False
+
+            pygame.display.update()
+            time.sleep(0.2)
 
         pygame.quit()
