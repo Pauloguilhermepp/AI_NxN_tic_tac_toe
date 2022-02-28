@@ -8,7 +8,14 @@ from Opponents import *
 # Class to represent tic tac toe game:
 class Tic_tac_toe:
     # Constructor:
-    def __init__(self, side = 3, window_size = 500, mode = "player_vs_player", opponent = "random_op", bots = ("random_op", "random_op")):
+    def __init__(
+        self,
+        side=3,
+        window_size=500,
+        mode="player_vs_player",
+        opponent="random_op",
+        bots=("random_op", "random_op"),
+    ):
         self.board = [
             [0 for i in np.arange(side)] for j in np.arange(side)
         ]  # Creating board
@@ -19,7 +26,7 @@ class Tic_tac_toe:
             window_size / self.side
         )  # Size of the squares in the board
         self.mode = mode  # Game mode
-        self.opponent = opponent # Choosing opponent
+        self.opponent = opponent  # Choosing opponent
         self.bots = bots
 
     # Function to test if someone won:
@@ -115,7 +122,7 @@ class Tic_tac_toe:
 
     # Checking if it is a valid movement:
     def valid_movement(self, x, y):
-        if(self.is_inside(x, y) and self.is_empty(x, y)):
+        if self.is_inside(x, y) and self.is_empty(x, y):
             return True
 
         return False
@@ -136,7 +143,7 @@ class Tic_tac_toe:
         if self.movement(player, x, y):
 
             if self.checking_winer():
-                print("Player {player} won this game!".format(player = player))
+                print("Player {player} won this game!".format(player=player))
                 self.game_on = False
 
             elif self.checking_draw():
@@ -196,7 +203,7 @@ class Tic_tac_toe:
     def change_player(self):
         if self.current_player_symb == "x":
             self.current_player_symb = "o"
-        
+
         else:
             self.current_player_symb = "x"
 
@@ -219,9 +226,10 @@ class Tic_tac_toe:
         self.current_player_symb = "x"
 
         print("Starting tic-tac-toe game!")
-        print("It is {player} time: ".format(player = self.current_player_symb))
+        print("It is {player} time: ".format(player=self.current_player_symb))
 
         pygame.init()
+        pygame.display.set_caption('NxN Tic tac toe')
         self.screen = pygame.display.set_mode(
             [self.window_size, self.window_size]
         )  # Creating screen
@@ -246,7 +254,7 @@ class Tic_tac_toe:
                             self.change_player()
                             print(
                                 "It is {player} time: ".format(
-                                    player = self.current_player_symb
+                                    player=self.current_player_symb
                                 )
                             )
 
@@ -263,20 +271,20 @@ class Tic_tac_toe:
 
     # Defining opponent:
     def choose_opponent(self, option):
-        if(option == "random_op"):
+        if option == "random_op":
             op = random_op.move
-        
-        elif(option == "dumb_minimax_op"):
+
+        elif option == "dumb_minimax_op":
             op = dumb_minimax_op.move
-        
-        elif(option == "alpha_beta_minimax_op"):
+
+        elif option == "alpha_beta_minimax_op":
             op = alpha_beta_minimax_op.move
-        
-        elif(option == "heuristic_alpha_beta_minimax_op"):
+
+        elif option == "heuristic_alpha_beta_minimax_op":
             op = heuristic_alpha_beta_minimax_op.move
-        
+
         return op
-            
+
     # Creating mode player vs bot:
     def run_player_vs_bot(self):
 
@@ -289,11 +297,12 @@ class Tic_tac_toe:
         self.current_player_symb = "x"
 
         print("Starting tic-tac-toe game!")
-        print("{Player1} will be the x".format(Player1 = player1))
-        print("{Player2} will be the o".format(Player2 = player2))
-        print("It is {player} time: ".format(player = self.current_player_symb))
+        print("{Player1} will be the x".format(Player1=player1))
+        print("{Player2} will be the o".format(Player2=player2))
+        print("It is {player} time: ".format(player=self.current_player_symb))
 
         pygame.init()
+        pygame.display.set_caption('NxN Tic tac toe')
         self.screen = pygame.display.set_mode(
             [self.window_size, self.window_size]
         )  # Creating screen
@@ -318,7 +327,7 @@ class Tic_tac_toe:
                             self.change_player()
                             print(
                                 "It is {player} time: ".format(
-                                    player = self.current_player_symb
+                                    player=self.current_player_symb
                                 )
                             )
                             self.current_player = "Bot"
@@ -331,7 +340,7 @@ class Tic_tac_toe:
                         self.change_player()
                         print(
                             "It is {player} time: ".format(
-                                player = self.current_player_symb
+                                player=self.current_player_symb
                             )
                         )
                         self.current_player = "Human"
@@ -344,7 +353,7 @@ class Tic_tac_toe:
             pygame.display.update()
 
         pygame.quit()
-    
+
     # Creating mode bot vs bot:
     def run_bot_vs_bot(self):
 
@@ -358,11 +367,12 @@ class Tic_tac_toe:
         self.current_player_symb = "x"
 
         print("Starting tic-tac-toe game!")
-        print("{Player1} will be the x".format(Player1 = player1))
-        print("{Player2} will be the o".format(Player2 = player2))
-        print("It is {player} time: ".format(player = self.current_player_symb))
+        print("{Player1} will be the x".format(Player1=player1))
+        print("{Player2} will be the o".format(Player2=player2))
+        print("It is {player} time: ".format(player=self.current_player_symb))
 
         pygame.init()
+        pygame.display.set_caption('NxN Tic tac toe')
         self.screen = pygame.display.set_mode(
             [self.window_size, self.window_size]
         )  # Creating screen
@@ -381,7 +391,7 @@ class Tic_tac_toe:
                         self.change_player()
                         print(
                             "It is {player} time: ".format(
-                                player = self.current_player_symb
+                                player=self.current_player_symb
                             )
                         )
                         self.current_player = "p2"
@@ -398,7 +408,7 @@ class Tic_tac_toe:
                         self.change_player()
                         print(
                             "It is {player} time: ".format(
-                                player = self.current_player_symb
+                                player=self.current_player_symb
                             )
                         )
                         self.current_player = "p1"

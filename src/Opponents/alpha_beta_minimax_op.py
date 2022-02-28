@@ -12,11 +12,10 @@ def minimax(game_state, maximazing, alpha, beta):
         return 0
 
     max_score = -10
-    min_score =  10
-    
+    min_score = 10
+
     N = game_state.side
 
-    
     for i in np.arange(N * N):
         x, y = i % N, i // N
 
@@ -30,28 +29,25 @@ def minimax(game_state, maximazing, alpha, beta):
             game_state.current_player_symb = game_state.board[x][y]
 
             game_state.board[x][y] = 0
-            
-            if(maximazing):
+
+            if maximazing:
                 max_score = max(max_score, score)
                 alpha = max(alpha, score)
 
-                if(beta <= alpha):
+                if beta <= alpha:
                     break
-            
+
             else:
                 min_score = min(min_score, score)
                 beta = min(beta, score)
 
-                if(beta <= alpha):
+                if beta <= alpha:
                     break
 
-
-    
-    if(maximazing):
+    if maximazing:
         return max_score
-    
+
     return min_score
-    
 
 
 def move(game_state):
