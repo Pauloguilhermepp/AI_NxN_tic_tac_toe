@@ -30,7 +30,7 @@ class Tic_tac_toe:
         self.bots = bots
 
     # Function to test if someone won:
-    def checking_winer(self):
+    def checking_winner(self):
 
         # Checking rows:
         for row in np.arange(self.side):
@@ -142,7 +142,7 @@ class Tic_tac_toe:
 
         if self.movement(player, x, y):
 
-            if self.checking_winer():
+            if self.checking_winner():
                 print("Player {player} won this game!".format(player=player))
                 self.game_on = False
 
@@ -170,24 +170,24 @@ class Tic_tac_toe:
                 pygame.draw.rect(self.screen, (200, 200, 200), rect, 1)
 
     # Draw circle with adjustable thickness:
-    def draw_o(self, x, y, thic):
+    def draw_o(self, x, y, thickness):
         circle_color = (200, 200, 200)
         radius = self.square_size // 2 - 5
         pygame.draw.circle(self.screen, circle_color, (x, y), radius, width=0)
 
         bg_color = (0, 0, 0)
-        radius -= thic
+        radius -= thickness
         pygame.draw.circle(self.screen, bg_color, (x, y), radius, width=0)
 
     # Draw X function:
-    def draw_x(self, x, y, thic):
+    def draw_x(self, x, y, thickness):
         rect_color = (200, 200, 200)
         adust = self.square_size // 2 - 10
 
         x0, y0, x2, y2 = x - adust, y + adust, x + adust, y - adust
         x1, y1, x3, y3 = x + adust, y + adust, x - adust, y - adust
-        pygame.draw.line(self.screen, rect_color, (x0, y0), (x2, y2), width=thic)
-        pygame.draw.line(self.screen, rect_color, (x1, y1), (x3, y3), width=thic)
+        pygame.draw.line(self.screen, rect_color, (x0, y0), (x2, y2), width=thickness)
+        pygame.draw.line(self.screen, rect_color, (x1, y1), (x3, y3), width=thickness)
 
     # Draw player movement:
     def draw_move(self, player, x, y):

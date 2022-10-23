@@ -17,7 +17,7 @@ Some important parameters of the game class:
 
 * **window_size**: Size in pixels of the game screen.
 
-* **mode**: Sets if the game will be with two human players (in this case its value is **palyer_vs_player**), with a human and a bot (**player_vs_bot**) or with two bots (**bot_vs_bot**).
+* **mode**: Sets if the game will be with two human players (in this case its value is **player_vs_player**), with a human and a bot (**player_vs_bot**) or with two bots (**bot_vs_bot**).
 
 * **opponent**: Defines which bot will be the opponent. Possible values are: **random_op**, **dumb_minimax_op**, **alpha_beta_minimax_op** or **heuristic_alpha_beta_minimax_op**.
 
