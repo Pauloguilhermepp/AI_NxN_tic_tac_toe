@@ -5,6 +5,7 @@ import random
 import numpy as np
 from Opponents import *
 
+
 # Class to represent tic tac toe game:
 class Tic_tac_toe:
     # Constructor:
@@ -31,7 +32,6 @@ class Tic_tac_toe:
 
     # Function to test if someone won:
     def checking_winner(self):
-
         # Checking rows:
         for row in np.arange(self.side):
             symb = self.board[row][0]
@@ -139,9 +139,7 @@ class Tic_tac_toe:
 
     # Function to run for each player turn:
     def player_turn(self, player, x, y):
-
         if self.movement(player, x, y):
-
             if self.checking_winner():
                 print("Player {player} won this game!".format(player=player))
                 self.game_on = False
@@ -161,7 +159,6 @@ class Tic_tac_toe:
 
     # Drawing a grid in the screen:
     def draw_grid(self):
-
         self.draw_edge()
 
         for x in np.arange(0, self.window_size, self.square_size):
@@ -209,7 +206,6 @@ class Tic_tac_toe:
 
     # Function to run the game:
     def run(self):
-
         if self.mode == "player_vs_player":
             self.run_player_vs_player()
 
@@ -221,7 +217,6 @@ class Tic_tac_toe:
 
     # Creating mode player vs player:
     def run_player_vs_player(self):
-
         self.game_on = True
         self.current_player_symb = "x"
 
@@ -229,7 +224,7 @@ class Tic_tac_toe:
         print("It is {player} time: ".format(player=self.current_player_symb))
 
         pygame.init()
-        pygame.display.set_caption('NxN Tic tac toe')
+        pygame.display.set_caption("NxN Tic tac toe")
         self.screen = pygame.display.set_mode(
             [self.window_size, self.window_size]
         )  # Creating screen
@@ -287,7 +282,6 @@ class Tic_tac_toe:
 
     # Creating mode player vs bot:
     def run_player_vs_bot(self):
-
         self.opponent_move = self.choose_opponent(self.opponent)
 
         player1, player2 = self.first_to_play()
@@ -302,7 +296,7 @@ class Tic_tac_toe:
         print("It is {player} time: ".format(player=self.current_player_symb))
 
         pygame.init()
-        pygame.display.set_caption('NxN Tic tac toe')
+        pygame.display.set_caption("NxN Tic tac toe")
         self.screen = pygame.display.set_mode(
             [self.window_size, self.window_size]
         )  # Creating screen
@@ -356,7 +350,6 @@ class Tic_tac_toe:
 
     # Creating mode bot vs bot:
     def run_bot_vs_bot(self):
-
         self.bot_move1 = self.choose_opponent(self.bots[0])
         self.bot_move2 = self.choose_opponent(self.bots[1])
 
@@ -372,7 +365,7 @@ class Tic_tac_toe:
         print("It is {player} time: ".format(player=self.current_player_symb))
 
         pygame.init()
-        pygame.display.set_caption('NxN Tic tac toe')
+        pygame.display.set_caption("NxN Tic tac toe")
         self.screen = pygame.display.set_mode(
             [self.window_size, self.window_size]
         )  # Creating screen
