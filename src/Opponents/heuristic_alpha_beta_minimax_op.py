@@ -85,7 +85,7 @@ def heuristic_function(game_state, maximazing):
 
 def minimax(game_state, maximazing, alpha, beta, depth):
     
-    if game_state.checking_winer():
+    if game_state.checking_winner():
         if not maximazing:
             return math.inf
         else:

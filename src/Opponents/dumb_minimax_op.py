@@ -2,7 +2,7 @@ import numpy as np
 
 
 def minimax(game_state, maximazing):
-    if game_state.checking_winer():
+    if game_state.checking_winner():
         if not maximazing:
             return 1
         else:
