@@ -1,9 +1,9 @@
 import numpy as np
 
 
-def minimax(game_state, maximazing):
+def minimax(game_state, maximizing):
     if game_state.checking_winner():
-        if not maximazing:
+        if not maximizing:
             return 1
         else:
             return -1
@@ -24,19 +24,19 @@ def minimax(game_state, maximazing):
 
             game_state.change_player()
 
-            score = minimax(game_state, not maximazing)
+            score = minimax(game_state, not maximizing)
 
             game_state.current_player_symb = game_state.board[x][y]
 
             game_state.board[x][y] = 0
 
-            if maximazing:
+            if maximizing:
                 max_score = max(max_score, score)
 
             else:
                 min_score = min(min_score, score)
 
-    if maximazing:
+    if maximizing:
         return max_score
 
     return min_score

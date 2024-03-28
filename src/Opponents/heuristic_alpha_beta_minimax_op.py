@@ -2,8 +2,8 @@ import math
 import numpy as np
 
 
-def heuristic_function(game_state, maximazing):
-    pontuation = 0
+def heuristic_function(game_state, maximizing):
+    points = 0
     symb = game_state.current_player_symb
 
     # Checking rows:
@@ -22,7 +22,7 @@ def heuristic_function(game_state, maximazing):
                 minus = 0
                 break
 
-        pontuation += plus - minus
+        points += plus - minus
 
     # Checking columns:
     for col in np.arange(game_state.side):
@@ -40,7 +40,7 @@ def heuristic_function(game_state, maximazing):
                 minus = 0
                 break
 
-        pontuation += plus - minus
+        points += plus - minus
 
     # Checking main diagonal:
     plus = 0
@@ -57,7 +57,7 @@ def heuristic_function(game_state, maximazing):
             minus = 0
             break
 
-    pontuation += plus - minus
+    points += plus - minus
 
     # Checking other diagonal:
     plus = 0
@@ -74,17 +74,17 @@ def heuristic_function(game_state, maximazing):
             minus = 0
             break
 
-    pontuation += plus - minus
+    points += plus - minus
 
-    if maximazing:
-        return pontuation
+    if maximizing:
+        return points
 
-    return -pontuation
+    return -points
 
 
-def minimax(game_state, maximazing, alpha, beta, depth):
+def minimax(game_state, maximizing, alpha, beta, depth):
     if game_state.checking_winner():
-        if not maximazing:
+        if not maximizing:
             return math.inf
         else:
             return -math.inf
@@ -93,7 +93,7 @@ def minimax(game_state, maximazing, alpha, beta, depth):
         return 0
 
     elif depth == 0:
-        return heuristic_function(game_state, maximazing)
+        return heuristic_function(game_state, maximizing)
 
     max_score = -math.inf
     min_score = math.inf
@@ -108,13 +108,13 @@ def minimax(game_state, maximazing, alpha, beta, depth):
 
             game_state.change_player()
 
-            score = minimax(game_state, not maximazing, alpha, beta, depth - 1)
+            score = minimax(game_state, not maximizing, alpha, beta, depth - 1)
 
             game_state.current_player_symb = game_state.board[x][y]
 
             game_state.board[x][y] = 0
 
-            if maximazing:
+            if maximizing:
                 max_score = max(max_score, score)
                 alpha = max(alpha, score)
 
@@ -128,7 +128,7 @@ def minimax(game_state, maximazing, alpha, beta, depth):
                 if beta <= alpha:
                     break
 
-    if maximazing:
+    if maximizing:
         return max_score
 
     return min_score
